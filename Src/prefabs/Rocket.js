@@ -19,6 +19,11 @@ class Bobber extends Phaser.GameObjects.Sprite {
             }
         }
         // fire button
+
+        if(game.input.activePointer.leftButtonDown() && !this.isFiring) {
+            this.isFiring = true;
+            this.sfxSplash.play();
+        }
         if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
             this.isFiring = true;
             this.sfxSplash.play();
@@ -31,6 +36,8 @@ class Bobber extends Phaser.GameObjects.Sprite {
         if(this.y <= borderUISize * 3 + borderPadding) {
             this.reset();
         }
+
+        this.x = game.input.mousePointer.x;
     }
 
     // reset rocket to "ground"
