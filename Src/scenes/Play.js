@@ -24,7 +24,7 @@ class Play extends Phaser.Scene {
         
         // add Rocket (p1)
         this.p1Bobber = new Bobber(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'bobber').setOrigin(0.5, 0);
-
+        this.p2Bobber = new Bobber2(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'bobber').setOrigin(1.5, 0);
         // add Fishs (x3)
         this.fish1 = new Fish(this, game.config.width + borderUISize*6, borderUISize*4, 'fish', 0, 30).setOrigin(0, 0);
         this.fish2 = new Fish(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'fish', 0, 20).setOrigin(0,0);
@@ -35,6 +35,9 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyA= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // animation config
         this.anims.create({
@@ -103,7 +106,8 @@ class Play extends Phaser.Scene {
         this.stream.tilePositionX -= 4;  // update tile sprite
 
         if(!this.gameOver) {
-            this.p1Bobber.update();             // update p1
+            this.p1Bobber.update();
+            this.p2Bobber.update();             // update p1
              this.fish1.update();               // update fish (x3)
             this.fish2.update();
             this.fish3.update();
@@ -127,6 +131,25 @@ class Play extends Phaser.Scene {
             this.fishReel(this.fish1);
             
         }
+
+        if(this.checkCollision(this.p2Bobber, this.fish3)) {
+            this.p2Bobber.reset();
+            this.fishReel(this.fish3);
+            
+            
+        }
+        if (this.checkCollision(this.p2Bobber, this.fish2)) {
+            this.p2Bobber.reset();
+            this.fishReel(this.fish2);
+            
+            
+        }
+        if (this.checkCollision(this.p2Bobber, this.fish1)) {
+            this.p2Bobber.reset();
+            this.fishReel(this.fish1);
+            
+        }
+
 
         this.timeLeft = Math.trunc(45 - this.clock.getElapsedSeconds());
         this.timerRight.text =  this.timeLeft;
